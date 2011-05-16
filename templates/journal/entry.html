@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+{% block page_title %}Entry{% endblock page_title %}
+
+{% block extra_js %}
+{{ block.super }}
+<script type="text/javascript" src="{{ MEDIA_URL }}js/jquery-ui-1.8.5.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){
+	// append a suggested tag to the text box
+	$("ul#suggested-tags li").click(function(e){
+		if (!$("textarea#id_tags").val())
+			$("textarea#id_tags").val( $(this).text() );
+		else
+			$("textarea#id_tags").val( $("textarea#id_tags").val() + "," + $(this).text() );
+	});	
+
+	// hide/show the individual moods
+	$('#expand-moods').click(function(){
+		$('#moods').toggleClass('hide');
+		$('#slider-average').toggleClass('hide');
+		var text = $('#expand-moods').text();
+		$('#expand-moods').text(
+			text == "Show Individual Moods" ? "Hide Individual Moods" : "Show Individual Moods"
+		);
+	});
+
+	// make the mood average slider move the individual sliders
+	sliderAvgMood = $("#slider-avg-mood").slider({min:1, max:10, animate:true, value: {{ mood_avg }},
+		slide: function(e,ui){
+			$("#input-avg-mood").val(ui.value);
+		},
+		change: function(e,ui){
+			$("#moods .slider").each(function(index){
+				$(this).slider("value", [ui.value]);
+				$(this).next().val(ui.value);
+			});
+		}
+	});
+		
+	// add some help text
+	createInfoBox("suggested-tags-label","The below tags were chosen based on how often you use them and recency, click to add them to this entry.","width-200");
+	createInfoBox("id_tags","Type in comma-separated significant keywords that you would correlate with today. For example, caffeine, beer, work, school, hw","width-200");
+
+});
+</script>
+{% endblock %}
+{% block extra_css %}
+<link rel="stylesheet" media="screen" href="{{ MEDIA_URL }}css/jquery-ui.css" type="text/css">
+{% endblock extra_css %}
+
+{% block body %}
+
+{% if editable %}
+{% include "journal/entry_form.html" %}
+
+{% else %}
+
+{% if form.instance %}
+{% include "journal/entry_details.html" %}
+{% endif %}
+
+{% endif %}
+
+{% endblock body %}

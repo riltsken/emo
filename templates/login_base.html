@@ -1,0 +1,27 @@
+<form id="login-form" class="left default-form" method="post" action="{% url auth_login %}">{% csrf_token %}
+	{% if form.errors %}<ul class="errors">{% for e in form.errors.values %}<li>{{ e }}</li>{% endfor %}</ul>{% endif %}
+	<div>
+		<div class="label-container">
+			{{ form.username.label_tag }}
+			{% if form.username.errors %}<br>{{ form.username.errors }}{% endif %}
+		</div>
+		<div class="field-container{% if field.errors %} field-error{% endif %}">
+			{{ form.username }}
+		</div>
+		{{ form.username.help_text }}
+	</div>
+	<div>
+		<div class="label-container">
+			{{ form.password.label_tag }}
+			{% if form.password.errors %}<br>{{ form.password.errors }}{% endif %}
+		</div>
+		<div class="field-container{% if field.errors %} field-error{% endif %}">
+			{{ form.password }}
+		</div>
+		{{ form.password.help_text }}
+	</div>
+	<div>
+		<input type="submit" class="button" value="Log In">
+		<a id="forgot-password" class="underline-blue" href="{% url auth_password_reset %}">Forgot password?</a>
+	</div>
+</form>

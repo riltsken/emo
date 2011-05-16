@@ -1,0 +1,18 @@
+{% if user.is_authenticated %}
+<ul class="profile-menu">
+	<li><a class="no-hover" href="{% url summary %}"><img class="menu-icon" alt="Summary" src="{{ MEDIA_URL }}img/summary.jpg"></a></li>
+	<li><a class="no-hover" href="{% url journal %}"><img class="menu-icon" alt="Journal" src="{{ MEDIA_URL }}img/journal.jpg"></a></li>
+	<li><a class="no-hover" href="{% url stats %}"><img class="menu-icon" alt="Stats" src="{{ MEDIA_URL }}img/stats.jpg"></a></li>
+	<li><a class="no-hover" href="{% url social_list %}"><img class="menu-icon" alt="Friends" src="{{ MEDIA_URL }}img/friends.jpg"></a></li>
+</ul>
+{% endif %}
+{% if viewing.username %}
+<div class="viewing-profile-menu {% if not user.is_authenticated %}push-profile-menu{% endif %}">
+	<span class="bold left">{{ viewing.username|capfirst }}</span>
+	<ul class="inline-ul">
+		<li class="push-right"><a class="underline-blue" href="{% url summary_specific_user viewing.username %}">Summary</a></li>
+		<li class="push-right"><a class="underline-blue" href="{% url journal_specific_user viewing.username %}">Journal</a></li>
+		<li class="push-right"><a class="underline-blue" href="{% url stats_specific_user viewing.username %}">Statistics</a></li>
+	</ul>
+</div>
+{% endif %}

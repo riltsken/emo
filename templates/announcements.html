@@ -1,0 +1,12 @@
+{% for a in announcements %}
+<div class="announcement-block{% if a.tags %}{{ a.tags }}{% endif %}{% block announcement_hide %}{% if not forloop.first %} hide{% endif %}{% endblock announcement_hide %}">
+	{% block announce_top %}
+	<div class="announcement-top">
+		<span class="announcement-title">Announcement - {{ a.start_time|date }}</span>
+		<span class="announcement-acknowledge"><a href="{% url announcement_acknowledge a.id %}">X</a></span>
+	</div>
+	{% endblock announce_top %}
+	<div class="announcement-bottom"><span class="announcement-message">{{ a.body|safe }}</span></div>
+</div>
+{% endfor %}
+

@@ -1,0 +1,8 @@
+{% extends "base_form.html" %}
+{% block page_title %}
+	{% if form.instance %}
+		Edit Group: {{ form.instance }}
+	{% else %}
+		Create New Group
+	{% endif %}
+{% endblock page_title %}

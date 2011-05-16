@@ -1,0 +1,22 @@
+<ul class="user-menu">
+	{% if request.user.is_authenticated %}
+	{% if request.user.is_superuser %}
+	<li><a class="user-link underline-black bold" href="{% url admin:index %}">Admin</a></li>
+	{% endif %}
+	{% if request_user_profile.is_guest %}
+	<li><a class="user-link underline-black bold" href="{% url demo_activate %}">Activate My Account!</a></li>
+	<li><a class="user-link underline-black" href="{% url profile_edit %}">Edit</a></li>
+	{% else %}
+	<li><a class="user-link underline-black" href="{% url summary %}">{{ request.user.username|capfirst }}</a></li>
+	<li><a class="user-link underline-black" href="{% url profile_edit %}">Edit</a></li>
+	{% if request_user_profile.public %}
+	<li><a class="user-link underline-black" href="{% url share %}">Share</a></li>
+	{% endif %}
+	<li><a class="user-link underline-black" href="{% url auth_logout %}">Log Out</a></li>
+	{% endif %}
+	{% else %}
+	<li><a class="user-link underline-black" href="{% url auth_login %}">Log In!</a></li>
+	OR
+	<li><a class="user-link underline-black" href="{% url registration_register %}">Register Now!</a></li>
+	{% endif %}
+</ul>

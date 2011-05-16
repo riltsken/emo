@@ -1,0 +1,13 @@
+{% extends 'userprofile/base_profile.html' %}
+{% block page_title %}Profile and Settings{% endblock page_title %}
+{% block extra_js %}
+<script type="text/javascript" src="{{ MEDIA_URL }}js/jquery-ui-1.8.5.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){
+	createInfoBox('mbti-help','The Myers-Briggs Type Indicator is a personality test which measures how one perceives and interacts with the world.','width-300');
+});
+</script>
+{% endblock %}
+{% block extra_css %}
+<link rel="stylesheet" media="screen" href="{{ MEDIA_URL }}css/jquery-ui.css" type="text/css">
+{% endblock extra_css %}

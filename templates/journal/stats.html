@@ -1,0 +1,309 @@
+{% extends 'base.html' %}
+{% load compress %}
+{% block page_title %}Statistics{% endblock page_title %}
+{% block extra_css %}
+<link rel="stylesheet" media="screen" href="{{ MEDIA_URL }}css/jquery.jqplot.min.css" type="text/css">
+<link rel="stylesheet" media="screen" href="{{ MEDIA_URL }}css/jquery-ui.css" type="text/css">
+{% endblock %}
+{% block extra_js %}
+<script type="text/javascript" src="{{ MEDIA_URL }}js/jquery-ui-1.8.5.js"></script>
+<!--[if IE]><script language="javascript" type="text/javascript" src="{{ MEDIA_URL }}js/excanvas.min.js"></script><![endif]-->
+<script type="text/javascript" src="{{ MEDIA_URL }}js/jquery.jqplot.min.js"></script>
+<script type="text/javascript" src="{{ MEDIA_URL }}js/jqplot-plugins/jqplot.categoryAxisRenderer.min.js"></script>
+<script type="text/javascript" src="{{ MEDIA_URL }}js/jqplot-plugins/jqplot.canvasTextRenderer.min.js"></script>
+<script type="text/javascript" src="{{ MEDIA_URL }}js/jqplot-plugins/jqplot.canvasAxisTickRenderer.min.js"></script>
+<script type="text/javascript" src="{{ MEDIA_URL }}js/jqplot-plugins/jqplot.dateAxisRenderer.min.js"></script>
+<script type="text/javascript" src="{{ MEDIA_URL }}js/jqplot-plugins/jqplot.barRenderer.min.js"></script>
+<script type="text/javascript" src="{{ MEDIA_URL }}js/jqplot-plugins/jqplot.pointLabels.min.js"></script>
+<script type="text/javascript" src="{{ MEDIA_URL }}js/jqplot-plugins/jqplot.highlighter.min.js"></script>
+<script type="text/javascript" src="{{ MEDIA_URL }}js/jqplot-plugins/jqplot.cursor.min.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){
+	$("#graphs").tabs();
+
+	/* BAR GRAPH (AVERAGE) */
+	avgs = [{% for mood in stats.mood_avg_deviation %}["{{mood.0}}", {{ mood.1.avg }},""]{% if not forloop.last %},{% endif %}{% endfor %}];
+	bar_avg = $.jqplot('bar_avg_id', [avgs], {
+		height: 350,
+		width: 980,
+		series:[{
+			renderer: $.jqplot.BarRenderer,
+			pointLabels:{
+				show: true,
+				textColor:"#ffffff"
+			}
+		}],
+		axes: {
+			xaxis:{
+				renderer:$.jqplot.CategoryAxisRenderer,
+				rendererOptions: {tickRenderer: $.jqplot.CanvasAxisTickRenderer},
+				tickOptions: {
+					textColor:"#000000",
+					fontSize:"16px",
+					showGridline: false
+				},
+				ticks: [{% for label in stats.mood_avg %}"{{ label.0 }}"{% if not foorloop.last %}, {% endif %}{% endfor %}]
+			}, 
+			yaxis:{
+				min:0,
+				max:10,
+				tickOptions: {
+					fontSize:"16px",
+					textColor:"#000000",
+					escapeHTML: false
+				},
+				ticks: ["1","2","3","4","5","6","7","8","9","10"],
+				showTickMarks: false
+			}
+		},
+		grid: {
+			background: "#ffffff"
+		}
+	});
+
+	/* LINE GRAPH (AVERAGE) */
+	data = [
+		{% for e in stats.entries %}
+		["{{e.date.year}}-{{e.date.month}}-{{e.date.day}}",{{e.mood_avg}}, "<br>{% for mt in e.moodtrend_set.all %}{{mt}}{% if not forloop.last %}<br>{% endif %}{% endfor %}"]{% if not forloop.last %},{% endif %}
+		{% endfor %}
+	];
+	line_avg = $.jqplot('line_avg_id', [data], {
+		height: 350,
+		width: 900,
+		axes: {
+			xaxis: {
+				renderer: $.jqplot.DateAxisRenderer,
+				rendererOptions: {tickRenderer: $.jqplot.CanvasAxisTickRenderer},
+				tickOptions: {
+					fontSize:"10px",
+					textColor:"#000000",
+					formatString:"%b %#d, %Y",
+					showGridline: false
+				}
+			},
+			yaxis: {
+				tickOptions: {
+					fontSize:"16px",
+					textColor:"#000000",
+					formatString: '%d&nbsp;'
+				},
+				ticks: [1,2,3,4,5,6,7,8,9,10],
+				showTickMarks: false						
+			}
+		},
+		highlighter: {
+			sizeAdjust: 14,
+			show:true,
+			yvalues: 2
+		},
+		seriesDefaults: {
+			markerOptions: {
+				color: "#000000",
+				size: 6
+			},
+			neighborThreshold: 2 
+		},
+		grid: {
+			background: "#ffffff"
+		}
+	});
+
+	/* LINE GRAPH (INDIVIDUAL) */
+	data = [
+		{% for mood, values in stats.mood_values.iteritems %}
+		[
+			{% for v in values %}
+			["{{v.1}}",{{ v.0 }},""]{% if not forloop.last %},{% endif %}
+			{% endfor %}
+
+		]{% if not forloop.last %},{% endif %}
+
+		{% endfor %}
+	];
+	line_indiv = $.jqplot('line_indiv_id', data, {
+		seriesColors: [ "#00FF00", "#0000FF", "#FF00FF", "#FF0000", "#00FFFF" ],
+		height: 350,
+		width: 900,
+		axes: {
+			xaxis: {
+				renderer: $.jqplot.DateAxisRenderer,
+				rendererOptions: {tickRenderer: $.jqplot.CanvasAxisTickRenderer},
+				tickOptions: {
+					fontSize:"10px",
+					textColor:"#000000",
+					formatString:"%b %#d, %Y",
+					showGridline: false
+				}
+			},
+			yaxis: {
+				tickOptions: {
+					fontSize:"16px",
+					textColor:"#000000",
+					formatString: '%d&nbsp;'
+				},
+				ticks: [0,1,2,3,4,5,6,7,8,9,10,11],
+				showTickMarks: false						
+			}
+		},
+		highlighter: {
+			show:false
+		},
+		seriesDefaults: {
+			markerOptions: {
+				color: "#000000",
+				size: 0
+			},
+			neighborThreshold: 2 
+		},
+		grid: {
+			background: "#ffffff"
+		}
+	});
+	
+	/* BAR GRAPH (DAILY) */
+	{% for mood in stats.mood_per_day %}
+		var {{ mood.0|cut:" " }} = [{% for v in mood.1 %}{{ v }}{% if not forloop.last %}, {% endif %}{% endfor %}];
+	{% endfor %}
+	bar_daily = $.jqplot('bar_daily_id', [{% for mood in stats.mood_per_day %}{{ mood.0|cut:" " }}{% if not forloop.last %}, {% endif %}{% endfor %}], {
+		height: 350,
+		width: 980,
+		seriesColors: [ "#00FF00", "#0000FF", "#FF00FF", "#FF0000", "#00FFFF" ],
+		seriesDefaults: {
+			renderer: $.jqplot.BarRenderer
+		},
+		series: [
+			{% for mood in stats.mood_per_day %} 
+			{label: '{{ mood.0 }}' }{% if not forloop.last %}, {% endif %}
+			{% endfor %}
+		],
+		axes: {
+			xaxis: {
+				renderer:$.jqplot.CategoryAxisRenderer,
+				rendererOptions: {tickRenderer: $.jqplot.CanvasAxisTickRenderer},
+				tickOptions: {
+					textColor:"#000000",
+					fontSize:"16px",
+					showGridline: false
+				},
+				ticks: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
+			}, 
+			yaxis:{
+				min:0,
+				max:10,
+				tickOptions: {
+					fontSize:"16px",
+					textColor:"#000000",
+					escapeHTML: false
+				},
+				ticks: ["1","2","3","4","5","6","7","8","9","10"],
+				showTickMarks: false
+			}
+		},
+		grid: {
+			background: "#ffffff"
+		}
+	});
+
+	/* TABS FOR THE GRAPHS  */
+	$('#graphs').bind('tabsshow', function(event, ui) {
+		if (ui.index == 0 && line_avg._drawCount == 0) {
+			line_avg.replot();
+		}
+		else if (ui.index == 1 && bar_avg._drawCount == 0) {
+			bar_avg.replot();
+		}
+		else if (ui.index == 2 && line_indiv._drawCount == 0) {
+			line_indiv.replot();
+			for (var x=0;x < line_indiv.series.length; x++)
+				$($('#line_indiv_legend li')[x]).css('border-color', line_indiv.series[x].color);
+				$('#line_indiv_legend li').each(function(index){
+					$(this).click(function(e){
+						$(this).toggleClass('hide-series');
+						line_indiv.series[index].show = true;
+						if ($(this).hasClass('hide-series'))
+							line_indiv.series[index].show = false;
+						line_indiv.replot();
+					});
+				});
+		}
+		else if (ui.index == 3 && bar_daily._drawCount == 0) {
+			bar_daily.replot();	
+			for (var x=0;x < bar_daily.series.length; x++)
+				$($('#bar_daily_legend li')[x]).css('border-color', bar_daily.series[x].color);
+				$('#bar_daily_legend li').each(function(index){
+					$(this).click(function(e){
+						$(this).toggleClass('hide-series');
+						bar_daily.series[index].show = true;
+						if ($(this).hasClass('hide-series'))
+							bar_daily.series[index].show = false;
+						bar_daily.replot();
+					});
+				});
+		}
+
+	});
+	
+});
+</script>
+{% endblock extra_js %}
+
+{% block body %} 
+<form class="span-form" method="get" action=".">{% csrf_token %}
+	<fieldset>
+		{% for field in form %}
+		<span>
+			{{ field.label_tag }}
+			{{ field }}
+			{{ field.errors }}
+		</span>
+		{% endfor %}
+		<span>
+			<input type="submit" id="submit" class="button" value="Submit">
+		</span>
+		<div class="clear"></div>
+		<p class="small">(mm/dd/yyyy or yyyy-mm-dd)</p>
+	</fieldset>
+</form>
+<div style="margin-top:60px;"> <!-- The margin brings the graph down so we don't see the background overlap the gradient -->
+	<div id="graphs">
+		<ul> 
+			<li><a href="#graphs-1">Timeseries Average</a></li> 
+			<li><a href="#graphs-2">Overall Average</a></li> 
+			<li><a href="#graphs-3">Timeseries per Mood</a></li> 
+			<li><a href="#graphs-4">Mood per day</a></li> 
+		</ul>
+
+		<div id="graphs-1">
+			This graph represents your average mood over time.
+			<div id="line_avg_id" class="graph" style="width:980px;height:350px;"></div>
+		</div>
+		<div id="graphs-2">
+			This graph represents the overall average of your moods.
+			<div id="bar_avg_id" class="graph" style="width:980px;height:350px;"></div>
+		</div>
+		<div id="graphs-3">
+			This graph represents each individual mood over time.
+			<ul id="line_indiv_legend" class="center legend">
+			{% for mood, values in stats.mood_values.iteritems %}
+				<li>{{ mood }}</li>
+			{% endfor %}
+			</ul>
+			<span class="small-message width-300">Click on a mood to show/hide it</span>
+			<div id="line_indiv_id" class="graph" style="width:980px;height:350px;margin-top:10px;"></div>
+		</div>
+		<div id="graphs-4">
+			This graph represents each individual mood per day of the week.
+			<ul id="bar_daily_legend" class="center legend">
+			{% for mood, values in stats.mood_values.iteritems %}
+				<li>{{ mood }}</li>
+			{% endfor %}
+			</ul>
+			<span class="small-message width-300">Click on a mood to show/hide it</span>
+			<div id="bar_daily_id" class="graph" style="width:980px;height:350px;margin-top:10px;"></div>
+		</div>
+	</div>
+</div>
+
+{% endblock body %}
+{% block method %}get{% endblock method %}
+{% block form_attrs %}class="report"{% endblock form_attrs %}

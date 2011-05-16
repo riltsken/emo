@@ -1,0 +1,55 @@
+{% block extra_js %}
+<script type="text/javascript" src="{{ MEDIA_URL }}js/jquery.sparkline.min.js"></script>
+<script type='text/javascript'>
+$(document).ready(function(){
+	/* Inline sparklines take their values from the contents of the tag */
+	$('.inlinesparkline').sparkline('html', {type: 'bullet', targetColor: '#4D6DFF', performanceColor: '#000000', targetWidth:7, height: 13}); 
+
+	{% for m in mood_values %}
+	createInfoBox("sparkline-{{ forloop.counter }}", "{{ m.value }}");
+	{% endfor %}
+});
+</script>
+{% endblock extra_js %}
+{% with form.instance as e %}
+{% load journal_tags %}
+
+<div class="title center">Entry for {{ e.date }}</div>
+<div class="center"> Written {{ e.created }} </div>
+<div>
+	<div class="half left">
+		<div class="header">MOOD</div>
+		<div>
+			<div class="half left">
+			{% for m in mood_values %}
+				{{ m.name }}<br>
+			{% endfor %}
+			</div>
+			<div class="half right">
+			{% for m in mood_values %}
+				1 <span id="sparkline-{{ forloop.counter }}" class="inlinesparkline">{{ m.value }},10</span> 10<br>
+			{% endfor %}
+			</div>
+		</div>
+	</div>
+	<div class="half right">
+		<div class="header">TAGS</div>
+		<div class="panel">
+			{% if e.tags %}
+			{{ e.pretty_tags }}
+			{% else %}
+			&nbsp;
+			{% endif %}
+		</div>
+	</div>
+</div>
+<div class="clear"></div>
+<div class="header">JOURNAL</div>
+<div>
+	{% if e.journal %}
+	{{ e.journal|urlize_html|safe|linebreaksbr }}
+	{% else %}
+	&nbsp;
+	{% endif %}
+</div>
+{% endwith %}

@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% block page_title %}Entry search{% endblock page_title %}
+{% block extra_js %}
+<script type="text/javascript" src="{{ MEDIA_URL }}js/jquery.sparkline.min.js"></script>
+<script type='text/javascript'>
+$(document).ready(function(){
+	/** This code runs when everything has been loaded on the page */
+	/* Inline sparklines take their values from the contents of the tag */
+	$('.inlinesparkline').sparkline('html', {type: 'bullet', targetColor: '#4D6DFF', performanceColor: '#000000', targetWidth:7, height: 13});
+
+	{% for r in results %}
+	createInfoBox("sparkline-{{ forloop.counter }}","Mood average: {{ r.mood_avg }}");
+	{% endfor %}
+});
+</script>
+{% endblock extra_js %}
+{% block body %}
+<form id="entrysearch" class="span-form push-bottom" method="get" action=".">
+	<fieldset>
+		{% for field in form %}
+		<span>
+			{{ field.label_tag }}
+			{{ field }}
+			{{ field.errors }}
+		</span>
+		{% endfor %}
+		<span>
+			<input type="submit" id="submit" class="button" value="Submit">
+		</span>
+		<div class="clear"></div>
+	</fieldset>
+</form>
+<table>
+	<tr>
+		<th class="width-100 padding-10">Date</th>
+		<th class="width-500 padding-10">Journal</th>
+		<th class="width-200 padding-10">Tags</th>
+		<th class="width-100 padding-10">Mood</th>
+	</tr>
+	{% for r in results %}
+	<tr>
+		<td class="width-100 padding-10"><a href="{% if viewing.username %}{% url journal_entry_specific_user viewing.username r.date.year r.date.month r.date.day %}{% else %}{% url journal_entry r.date.year r.date.month r.date.day %}{% endif %}">{{ r.date|date }}</a></td>
+		<td class="width-500 padding-10">{% if r.journal %}{{ r.journal|truncatewords:"15" }}{% else %}No journal recorded{% endif %}</td>
+		{% spaceless %}
+		<td class="width-200 padding-10">
+			{% for t in r.tag_list %}
+				<span{% for q in form.query_list %}{% if t == q %} class="bold" {% endif %}{% endfor %}>{{ t }}</span>{% if not forloop.last %}, {% endif %}
+			{% endfor %}
+		</td>
+		{% endspaceless %}
+		<td class="width-100 padding-10">1 <span id="sparkline-{{ forloop.counter }}" class="inlinesparkline">{{ r.mood_avg }},10</span> 10</td>
+	</tr>
+	{% endfor %}
+</table>
+{% endblock body %}

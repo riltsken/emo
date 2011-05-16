@@ -1,0 +1,14 @@
+<div class="slider-container">
+	<script type="text/javascript">
+		$(document).ready(function(){
+			slider{{ final_attrs.name }} = $("#slider-{{ final_attrs.name }}").slider({min:1, max:10, animate:true, value: {{ final_attrs.value }},
+				slide: function(e,ui){
+					$("#input-{{ final_attrs.name }}").val(ui.value);
+				}
+			});
+		});
+	</script>
+	<div id="slider-{{ final_attrs.name }}" class="slider"></div>
+	<input id="input-{{ final_attrs.name }}" class="slider-input" {{ input_attrs }} readonly="readonly">
+</div>
+

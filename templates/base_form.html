@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block body %}
+<div class="form-description">{% block form_description %}{% endblock form_description %}</div>
+<form class="{% block form_class %}default-form{% endblock form_class %}" method="{% block method %}post{% endblock method %}" action="."> {% csrf_token %}
+	{% block fields %}
+	{% for field in form %}
+	<div class="{% block field_class %} {% endblock field_class %}" >
+		<div class="label-container">
+			{{ field.label_tag }}
+			{% if field.errors %}<br>{{ field.errors }}{% endif %}
+		</div>
+		<div class="field-container{% if field.errors %} field-error{% endif %}">
+			{{ field }}
+		</div>
+		{{ field.help_text|safe }}
+	</div>
+	{% endfor %}
+	{% endblock fields %}
+	<input type="submit" value="Submit" class="button">
+</form>
+{% endblock body %}

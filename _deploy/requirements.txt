@@ -1,0 +1,13 @@
+Django==1.3
+gunicorn
+
+-e git+https://github.com/subsume/django-announcements.git#egg=announcements
+-e git+https://github.com/robhudson/django-debug-toolbar.git#egg=debug_toolbar
+-e git+https://github.com/subsume/django-displayset.git#egg=django_displayset
+-e git+https://github.com/jezdez/django_compressor.git#egg=django_compressor
+-e git+https://github.com/mirumee/django-voice.git#egg=djangovoice
+-e git+https://github.com/DrMegahertz/django-gravatar.git#egg=gravatar
+-e git+https://github.com/brosner/django-voting.git#egg=voting
+
+-e hg+https://bitbucket.org/ubernostrum/django-registration#egg=registration
+-e hg+https://bitbucket.org/ubernostrum/django-profiles#egg=profiles

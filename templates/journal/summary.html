@@ -1,0 +1,88 @@
+{% extends "base.html" %}
+{% load journal_tags %}
+{% block extra_js %}
+<script type="text/javascript" src="{{ MEDIA_URL }}js/jquery.sparkline.min.js"></script>
+<script type='text/javascript'>
+$(document).ready(function(){
+	{% for tag,opts in tagcloud.ultimate_tag_dict.iteritems %}
+		ul_open = "<ul class='tag-avg-mood info-popup'>";
+		title = "<li><span>Mood Average</span></li>";
+		moods = "{% for mood,avg in opts.avg_moods.iteritems %}<li><div>{{mood}}</div> {{avg}}</li>{% endfor %}";
+		ul_close = "</ul>";
+		infoboxhtml = ul_open + title + moods + ul_close;
+		createInfoBoxHTML("tag-{{tag|cut:" "}}",infoboxhtml);
+	{% endfor %}
+
+	/** This code runs when everything has been loaded on the page */
+	/* Inline sparklines take their values from the contents of the tag */
+	$('.inlinesparkline').sparkline('html', {type: 'bullet', targetColor: '#4D6DFF', performanceColor: '#000000', targetWidth:7, height: 13});
+
+	{% for e in recent %}
+	createInfoBox("sparkline-{{ forloop.counter }}","Mood average: {{ e.mood_avg }}");
+	{% endfor %}
+});
+</script>
+{% endblock extra_js %}
+{% block page_title %}Summary page for {% if viewing.username %}{{ viewing.username }}{% else %}{{ request.user.username }}{% endif %}{% endblock page_title %}
+{% block body %}
+{% if recent or radar_plot_options %} {# IF there are any entries: #}
+<div class="header">RECENT ENTRIES</div>
+<div class="min-height-350">
+	<div class="right">
+		<form id="summary-search-form" method="get" action="{% if viewing.username %}{% url entry_search_specific_user viewing.username %}{% else %}{% url entry_search %}{% endif %}">
+			<fieldset>
+				<div>
+					<span>
+						{{ searchform.query }}
+						{{ searchform.query.errors }}
+					</span>
+					<span>
+						<input type="submit" id="submit" class="button" value="Search">
+					</span>
+				</div>
+			</fieldset>
+		</form>
+		{% if radar_plot_options %}
+		<div id="recent-mood-radar">
+			<div class="center box-title">Recent Mood</div>
+			<img src="http://chart.apis.google.com/chart?{{ radar_plot_options|safe }}" height="325" width="325" alt="Mood radar chart">
+		</div>
+		{% endif %}
+	</div>
+	<ul class="recent-entries">
+		{% for e in recent %}
+		<li class="entry-list-detail">
+			<p class="nomargin">{% if e.is_private %}Entry is set to private.{% else %}{{ e.journal|urlize_html|safe|linebreaksbr|capfirst }}{% endif %}</p>
+			<div class="entry-detail-box small">
+				<a class="push-right underline-blue" 
+				   href="{% if viewing.username %}{% url journal_entry_specific_user viewing.username e.date.year e.date.month e.date.day %}{% else %}{% url journal_entry e.date.year e.date.month e.date.day %}{% endif %}">View</a>
+				<span class="journal-date">{{ e.date|date }}</span>
+				<span>1 <span id="sparkline-{{ forloop.counter }}" class="inlinesparkline">{{ e.mood_avg }},10</span> 10</span>
+			</div>
+		</li>
+		{% endfor %}
+	</ul>
+</div>
+{% endif %}
+<div class="push-top">
+	<div class="half left push-right">
+		<div class="header">BLURBS</div>
+		<ul class="blurbs">
+		{% for b in observer.get_blurbs %}
+			{% if b %}<li>&#187; {{ b|safe }}</li>{% endif %}
+		{% endfor %}
+		</ul>
+	</div>
+
+	<div class="half right">
+		<div class="header">
+			TAG CLOUD
+			<span class="header-link">
+			[<a class="underline-blue" href="{% url tags %}">edit</a>]
+			</span>
+		</div>
+		{% generate_tag_cloud tagcloud viewing %}
+	</div>
+	<div class="clear"></div>
+</div>
+{% endblock body %}

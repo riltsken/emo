@@ -1,0 +1,9 @@
+{% if tagcloud.has_tags %}
+<ul class="tag-cloud">
+	{% for tag,opts in tagcloud.ultimate_tag_dict.iteritems %}
+	<li id="tag-{{ tag|cut:" " }}" style="font-size:{{opts.size}}px;">
+		<a class="{% cycle "dark" "light" %} tag" href="{% if viewing.username %}{% url entry_search_specific_user viewing.username %}{% else %}{% url entry_search %}{% endif %}?query={{tag}}&amp;search_type=tags">{{ tag }}</a>
+	</li>
+	{% endfor %}
+</ul>
+{% endif %}

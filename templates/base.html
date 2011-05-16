@@ -1,0 +1,57 @@
+{% extends "1syntax.html" %}
+{% load compress %}
+{% block html %}
+<head>
+	<title>Emovolution :: {% block page_title %}Untitled Page{% endblock page_title %}</title>
+	<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+	<meta name="description" content="Emotion tracking journal and statistics diary"> 
+	<meta name="keywords" content="online diary, free diary, free journal, online journal, mood tracking, mood, emotion, emotion tracking, mood trending, emotion trending, evolution, emo, journal, diary, notebook"> 
+	<meta name="y_key" content="c6a35f323af14bd2" />
+	<meta name="google-site-verification" content="_6kIoBeW2MyzrRkkiVu8uUWRR2-wBypwFL5QcGtgce0" />
+	<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+	{% compress css %}
+	<link rel="stylesheet" media="screen" href="{{ MEDIA_URL }}css/screen.css" type="text/css">
+	{% block extra_css %}{% endblock extra_css %}
+	<!--[if IE]>
+	<link rel="stylesheet" media="screen" href="{{ MEDIA_URL }}css/ie.css" type="text/css">
+	<![endif]-->
+	{% endcompress %}
+	{% compress js %}
+	<script type="text/javascript" src="{{ MEDIA_URL }}js/jquery-1.4.2.js"></script>
+	<script type="text/javascript" src="{{ MEDIA_URL }}js/etc.js"></script>
+	<script type="text/javascript" src="{{ MEDIA_URL }}js/announcements.js"></script>
+	{% endcompress %}
+	{% block extra_js %}{% endblock extra_js %}
+	{% if not debug %}<script type="text/javascript" src="{{ MEDIA_URL }}js/ga.js"></script>{% endif %}
+	<meta name="google-site-verification" content="QQ1kziBH6YHzcKfkzHQUC5xxUg7ww4wlEEaojss2UGI">
+	<meta name="alexaVerifyID" content="sE9pvq8nJ7WJDGboxFcDtSvg49I">
+</head>
+<body id="{% block sectionid %}body-id{% endblock %}"> {# sectionid is used by django-voice aka feedback #}
+	<div class="wrapper">
+		<div class="top">
+			<div class="user-menu">
+				{% block user_menu %}{% include "user_menu.html" %}{% endblock user_menu %}
+			</div>
+			<div class="banner{% if viewing.username %} push-bottom{% endif %}">
+				<div class="inner-banner">
+					<div class="title-image">
+						<a href="{% if user.is_authenticated %}{% url summary %}{% else %}{% url main %}{% endif %}"><img src="{{ MEDIA_URL }}img/title.jpg" alt="emovolution"></a>
+					</div>
+					<div class="profile-menu">
+					{% block profile_menu %}{% include "profile_menu.html" %}{% endblock profile_menu %}
+					</div>
+				</div>
+			</div> <!-- end banner -->
+		</div> <!-- end top -->
+		<div class="container">
+			<div class="inner-container">
+				{% block messages %} {% include "messages.html" %}{% endblock messages %}
+				{% block announcements %} {% include "announcements.html" %} {% endblock announcements %}
+				{% block body %}{% endblock body %}
+			</div>
+		</div> <!-- end container -->
+		<div class="push"></div>
+	</div> <!-- end wrapper -->
+	{% block footer %}{% include "footer.html" %}{% endblock footer %}
+</body>
+{% endblock html %}

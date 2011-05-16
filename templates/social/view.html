@@ -1,0 +1,116 @@
+{% extends "base.html" %}
+{% block page_title %}Community Bookmarks{% endblock page_title %}
+
+{% block body %}
+
+<a class="underline-blue right" href="{% url social_search %}">Search for Users</a>
+
+{% if bookmarked %}
+<div class="header">Bookmarks</div>
+<table class="data">
+<tr>
+	<th>User</th>
+	<th>Profile</th>
+	<th>Notes</th>
+	<th>Remove</th>
+</tr>
+	{% for bond in bookmarked %}
+<tr>
+	<td>{{ bond.relative }}</td>
+	<td><a class="underline-blue" href="{% url summary_specific_user bond.relative.username %}">View Profile</a></td>
+	<td>{{ bond.notes }}</td>
+	<td><a class="underline-blue" href="{% url social_bookmark_remove %}?user={{ bond.relative }}">Remove Bookmark</a></td>
+</tr>
+{% endfor %}
+</table>
+{% endif %}
+
+{% if not request.user.profile_set.get.public %}
+
+{% if requests %}
+<div class="header">Pending Requests (Incoming)</div>
+<table class="data">
+<tr>
+	<th>User</th>
+	<th>Profile</th>
+	<th>Notes</th>
+	<th>Accept</th>
+	<th>Block</th>
+</tr>
+	{% for bond in requests %}
+<tr>
+	<td>{{ bond.relative }}</td>
+	<td><a class="underline-blue" href="{% url summary_specific_user bond.relative.username %}">View Profile</a></td>
+	<td>{{ bond.notes }}</td>
+	<td><a class="underline-blue" href="{% url social_request_approve %}?user={{ bond.relative }}">Accept Request</a></td>
+	<td><a class="underline-blue" href="{% url social_block %}?user={{ bond.relative }}">Block Requests</a></td>
+</tr>
+{% endfor %}
+</table>
+
+{% endif %}
+
+{% if blocked %}
+<div class="header">Blocked Users</div>
+<table class="data">
+<tr>
+	<th>User</th>
+	<th>Profile</th>
+	<th>Notes</th>
+	<th>Remove</th>
+</tr>
+	{% for bond in blocked %}
+<tr>
+	<td>{{ bond.relative }}</td>
+	<td><a class="underline-blue" href="{% url summary_specific_user bond.relative.username %}">View Profile</a></td>
+	<td>{{ bond.notes }}</td>
+	<td><a class="underline-blue" href="{% url social_unblock %}?user={{ bond.relative }}">Unblock</a></td>
+</tr>
+{% endfor %}
+</table>
+{% endif %}
+
+{% if approved %}
+<div class="header">Approved Users</div>
+<table class="data">
+<tr>
+	<th>User</th>
+	<th>Profile</th>
+	<th>Notes</th>
+	<th>Remove</th>
+</tr>
+	{% for bond in approved %}
+<tr>
+	<td>{{ bond.relative }}</td>
+	<td><a class="underline-blue" href="{% url summary_specific_user bond.relative.username %}">View Profile</a></td>
+	<td>{{ bond.notes }}</td>
+	<td><a class="underline-blue" href="{% url social_request_deny %}?user={{ bond.relative }}">Remove Permission</a></td>
+</tr>
+{% endfor %}
+</table>
+{% endif %}
+
+{% endif %}
+
+{% if pending %}
+<div class="header">Pending Requests (Outgoing)</div>
+<table class="data">
+<tr>
+	<th>User</th>
+	<th>Profile</th>
+	<th>Notes</th>
+	<th>Remove</th>
+</tr>
+	{% for bond in pending %}
+<tr>
+	<td>{{ bond.host }}</td>
+	<td><a class="underline-blue" href="{% url summary_specific_user bond.host.username %}">View Profile</a></td>
+	<td>{{ bond.notes }}</td>
+	<td><a class="underline-blue" href="{% url social_request_remove %}?user={{ bond.host }}">Withdraw Request</a></td>
+</tr>
+{% endfor %}
+</table>
+
+{% endif %}
+
+{% endblock body %}

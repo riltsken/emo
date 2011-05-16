@@ -1,0 +1,10 @@
+{% extends 'base_form.html' %}
+{% block body %}
+<div class="large">
+	<a class="underline-blue" href="{% url profile_edit %}">Profile</a> |
+	<a class="underline-blue" href="{% url auth_password_change %}">Change Password</a>
+</div>
+<div class="settings push-top">
+	{{ block.super }}
+</div>
+{% endblock %}

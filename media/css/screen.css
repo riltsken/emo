@@ -1,0 +1,1084 @@
+/* 
+
+All new classes added to this style sheet need to conform to our standards.
+	
+All classes will be free of element dependence ( .class{ } instead of div.class{ } ) whenever possible
+
+All classes will have clear comments that explain exactly where and how they are used
+
+All classes will be placed in relevant categories or have new ones created
+
+================================================================================================================================
+Reset defaults to handle browser differences. Keep this on top, do not edit. 
+================================================================================================================================
+*/
+html{color:#000;background:#FFF;}
+body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,code,form,fieldset,legend,input,button,textarea,p,blockquote,th,td{margin:0;padding:0;}
+table{border-collapse:collapse;border-spacing:0;}
+fieldset,img{border:0;}
+address,caption,cite,code,dfn,em,strong,th,var,optgroup{font-style:inherit;font-weight:inherit;}
+del,ins{text-decoration:none;}
+li{list-style:none;}
+caption,th{text-align:left;}
+h1,h2,h3,h4,h5,h6{font-size:100%;font-weight:normal;}
+q:before, q:after {content:'';}
+blockquote,q{quotes: none;}
+blockquote:before, blockquote:after, q:before, q:after {content:'';content:none;}
+abbr,acronym{border:0;font-variant:normal;}
+sup{vertical-align:baseline;}
+sub{vertical-align:baseline;}
+legend{color:#000;}
+input,button,textarea,select,optgroup,option{font-family:inherit;font-size:inherit;font-style:inherit;font-weight:inherit;}
+input,button,textarea,select{font-size:100%;}
+* {margin: 0;}
+
+/*
+ ================================================================================================================================
+ Global element CSS. Style for HTML elements across the entire site.
+ ================================================================================================================================
+*/
+
+html, body {
+	height: 100%;
+	background: #FFFFFF url(/media/img/background.jpg) repeat-x;
+    font-family: Verdana, Geneva, sans-serif;
+    font-size: 15px;
+}
+
+h1,h2 {
+	font-weight: bold;
+}
+
+h1 {
+	font-size: 32px;
+}
+
+h2 {
+	font-size: 28px;
+}
+
+a {								/* outline controls the dotted border that mozilla puts on links/images when selecting them, get rid of that crap */
+	outline: 0;
+	text-decoration: none;
+	color:#4D6DFF;
+}
+
+a:visited {
+	color:#4D6DFF;
+}
+
+a:hover {
+	color:#4D6DFF;
+}
+
+input,
+select,
+textarea {						/* Style for all form fields */
+	padding:5px;
+	border:2px solid #4D6DFF;
+	-moz-border-radius:5px;
+	-webkit-border-radius:5px;
+	width: 200px!important;
+}
+
+input:hover,					/* Change color when hovered over forms */
+select:hover,
+textarea:hover {
+	border-color: gray;
+}
+
+input:focus,					/* Change color when focused on forms */
+select:focus,
+textarea:focus {
+	border-color: black;
+}
+
+select {						/* Selects use pixel width in a different way than other inputs. Need to be longer to match */
+	width: 216px!important;
+}
+
+p {								/* just a standard p tag with text */
+	margin:5px;
+}
+
+
+/*
+ ================================================================================================================================
+ Page structure. These define the blueprint of the layout.
+ ================================================================================================================================
+*/
+
+.wrapper {						/* Wraps the ENTIRE site. Uses negative margin to push the footer down */
+	min-height: 100%;
+	height: auto !important;
+	margin: 0 auto -40px;
+}
+
+.banner {						/* The large full-length banner behind the title */
+	width: 100%;
+	border-bottom: 3px solid black;
+	border-top: 3px solid black;
+	height: 70px;
+	background: #4D6DFF url(/media/img/title-background.jpg);
+	vertical-align: middle;
+}
+
+.banner a {
+	color: black;
+}
+
+.inner-banner {					/* Container within the banner div. Centeres the content within */
+	width: 1000px;
+	margin-right: auto;
+	margin-left: auto;
+}
+
+.top {							/* The top area containing the title and navigation */
+	width: 100%;
+}
+
+.container {					/* The area that floats mid-screen above the footer and below the top */
+	width: 1000px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.inner-container{				/* Give the container padding without pushing it outwards. This sits inside the .container */
+	padding: 10px;
+}
+
+.footer, .push {				/* Used to push footer to the bottom. height must be the negative of wrapper margin */
+	height: 40px;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.inner-footer {					/* Style for the footer */
+	text-align:center;
+	height:39px;
+	border-top: 1px solid black;
+	background: #4D6DFF url(/media/img/footer-background.jpg);
+}
+
+/*
+ ================================================================================================================================
+ Navigation and menus. All sitting within the "top" div
+ ================================================================================================================================
+*/
+
+div.title-image {				/* Container for the title image */
+	display: inline;
+	float: left;
+}
+
+div.user-menu {					/* Container for the user menu. User meaning logged-in user. */
+	width: 1000px;
+	margin-left: auto;
+	margin-right: auto;
+	padding-bottom: 5px;
+}
+
+.user-menu {
+	text-align: right;
+}
+
+.user-menu li {					/* The individual user's links */
+	display: inline;
+	padding: 10px;
+}
+
+.user-menu a {
+	font-size: 15px;
+    font-family: Verdana, Geneva, sans-serif;
+	text-align: right;
+}
+
+div.profile-menu {				/* Container for the profile menu. Profile of whichever user you are looking at.. */
+	display: inline;
+	float: right;
+}
+
+.profile-menu {
+	text-align: right;
+	width: 490px;
+}
+
+.profile-menu span {			/* Holds the username of the person you are viewing */
+	width: 135px;
+	text-align: left;
+	overflow: hidden;			/* NOTE THAT OVERFLOW IS HIDDEN ON THIS SPAN... if a name is too long it will just get cut off */
+}
+
+.profile-menu li {				/* The profile menu */
+	display: inline;
+	padding-left: 30px;
+	height: 70px;
+}
+
+.push-profile-menu {
+	top: 73px!important;
+}
+
+.viewing-profile-menu {			/* Menu for someone else's profile. A user that you are viewing (not yourself) */
+	border-left: 2px solid black;
+	border-right: 2px solid black;
+	border-bottom: 2px solid black;
+	-moz-border-radius: 0px 0px 5px 5px; 
+	-webkit-border-radius: 0px 0px 5px 5px;
+	padding: 5px 0px 5px 10px;
+	background-color: skyblue;
+}
+
+.viewing-profile-menu a {
+	color: blue;
+}
+
+.footer-link {					/* Links located on the footer */
+	margin: 0 30px 0 30px;
+	vertical-align: middle;
+	padding-top: 10px;
+}
+
+/*
+ ================================================================================================================================
+ Common classes. Styles for things that are used all over.
+ ================================================================================================================================
+*/
+
+/* We cannot make a common a:hover effect because IE will apply it to things we don't want it to. Instead, any link that we DO
+   want to have a hover effect will need to be specified. */
+
+.underline {					/* Replace the underline with a border-bottom (Black) */
+	text-decoration: none!important;
+	border-bottom: 1px solid black;
+}
+
+.underline:hover,
+.underline-black:hover {		/* Hover effect that changes the underline color (White) */
+	border-bottom: 1px solid white;
+}
+
+.underline-blue {				/* An alternative link color */
+	text-decoration: none;
+	border-bottom: 1px solid #4D6DFF;
+}
+
+.underline-blue:hover {			/* Hover effect for the alt link color */
+	color: black;
+	border-bottom: 1px solid #4D6DFF;
+}
+
+.underline-black {
+	color: black!important;		/* Another alt link type. Used in the footer and user menus */
+	border-bottom: 1px solid black;
+}
+
+.half {							/* Allows elements to display side-by-side, taking up half of the page each */
+	width: 48%;
+	display: inline;
+	vertical-align: top;
+}
+
+.one-third {					/* Side by side elements displayed as 1/3 of the container */
+	width: 30%;
+	display: inline;
+	vertical-align: top;
+}
+
+.left {							/* Floating left */
+	float: left;
+}
+
+.right {						/* Floating right */
+	float: right;
+}
+
+.header {						/* Headers for sections */
+	letter-spacing: 6px;
+	font-weight: bold;
+	font-size: 20px;
+	border-bottom: 3px solid #4D6DFF;
+	margin: 20px 0px;
+}
+
+.header-link {
+	float: right;
+	font-size: 14px;
+	letter-spacing: 0;
+	position: relative;
+	top: 5px;
+}
+
+.title {
+	font-weight: bold;
+	font-size: 18px;
+}
+
+.bold {
+	font-weight: bold;
+}
+
+.indent {
+	text-indent: 10px;
+}
+
+.question-mark {
+	font-size: 16px;
+	font-weight: bold;
+	margin: 5px;
+	color: #4D6DFF;
+	border-bottom: 3px solid #4D6DFF;
+	cursor: help;
+}
+
+.backdrop {							/* A good background color to use for accentuating a grid */
+	background-color: #CAD7E8;
+}
+
+.backdrop-fade {					/* Fading backdrop */
+	background: url("/media/img/background.jpg") repeat-x scroll 0 0 #FFFFFF;
+	-moz-border-radius: 10px 10px 0 0; 
+	-webkit-border-radius: 10px 10px 0 0;
+}
+
+.no-hover:hover {
+	text-decoration: none!important;
+}
+
+table.data {						/* for tables that need to display data as intended */
+	border: 1px solid black;
+	width: 100%;
+}
+
+table.data td {
+	border: 1px solid black;
+	padding: 5px;
+}
+
+table.data th {						/* header for the data table */
+	background-color: #4D6DFF;
+	border: 1px solid black;
+	color: white;
+	padding: 5px;
+	font-size: 15px;
+	font-weight: bold;
+}
+
+/*
+ ================================================================================================================================
+ Helper classes. These are classes used to help move and manipulate things all around the site.
+ ================================================================================================================================
+*/
+
+.inline {
+	display: inline;			/* display elements inline */
+}
+
+.inline-ul {					/* Simplify displaying a ul and its li's inline*/
+	display: inline;
+}
+
+.inline-ul li {
+	display: inline
+}
+
+.small {						/* Smaller font */
+	font-size: 12px;
+}
+
+
+.large {						/* Larger font */
+	font-size: 20px;
+}
+
+.clear {
+	clear: both;
+}
+
+.center {						/* Center the text within this element */
+	text-align: center;
+}
+
+.centered {						/* Center this element within its parent. ELEMENT MUST HAVE A WIDTH */
+	/* REQUIRES A WIDTH */
+	margin-left: auto;
+	margin-right: auto;
+	display: block;
+}
+
+.highlight {
+	background-color: #DEDEDE;
+}
+
+.push-top {						/* Give breathing room between two elements by pushing the bottom one */
+	margin-top: 15px;
+}
+
+.push-right {
+	margin-right: 15px;
+}
+
+.push-bottom {
+	margin-bottom: 25px;
+}
+
+.nomargin {
+	margin: 0px;
+}
+
+.hidden {
+	display: none;
+}
+
+.width-1000 {
+	width: 1000px;
+}
+
+.width-500 {
+	width: 500px;
+}
+
+.width-300 {
+	width: 300px;
+}
+
+.width-200 {
+	width: 200px;
+}
+
+.width-100 {
+	width: 100px;
+}
+
+.min-height-350 {
+	min-height: 350px;
+}
+
+.padding-10 {
+	padding: 10px 5px;
+}
+
+/*
+ ================================================================================================================================
+ Messages, alerts, warnings, events, errors, etc.
+ ================================================================================================================================
+*/
+
+.large-message {				/* Large messages for full-page view (404 and 500 pages) */
+	margin-left: auto;
+	margin-right: auto;
+	font-size: 20px;
+	font-weight: bold;
+	display:block;
+	position:relative;
+	top: -11px;
+	-moz-border-radius: 0 0 10px 10px;
+	-webkit-border-radius: 0 0 10px 10px;
+	text-align: center;
+	background-color: skyblue;
+	border: 1px solid black;
+	height: 30px;
+}
+
+.errorlist {					/* The auto-generated error list for forms. Generated by Django */
+	color: red;
+	font-size: 10px;
+}
+
+.messages {
+	text-align: center;
+	font-weight: bold;
+	font-size: 22px;
+	margin: 10px;
+}
+
+.messages li {
+	-moz-border-radius: 10px;
+	-webkit-border-radius: 10px;
+	padding: 4px;
+	border: 1px solid black;
+}
+
+.messages li.success,
+.messages li.info  {
+	background-color: skyblue;
+}
+
+.messages li.warning,
+.messages li.error {
+	background-color: darkblue;
+	color: white;
+}
+
+.small-message {
+	background-color: skyblue;
+	border: 1px solid black;
+	padding: 4px;
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	margin-right: auto;
+	margin-left: auto;
+	display: block;
+	text-align: center;
+}
+.announcement-block {
+	border: 2px solid black;
+	-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;
+	color: black;
+	margin: 0px auto;
+	font-weight:bold;
+	width: 50%;
+}
+.announcement-top {
+	text-align: right;
+	background: url("/media/img/footer-background.jpg") repeat #4D6DFF;
+	border-bottom: 1px solid black;
+}
+.announcement-bottom {
+	background-color: white;
+	padding: 5px;
+}
+.announcement-acknowledge a {
+	color: white;
+	font-size: 16px;
+	text-shadow: 1px 1px 2px #000000;
+	font-weight: bold;
+	margin-right: 5px;
+	cursor: pointer;
+}
+.announcement-title {
+	color: white;
+	float: left;
+	margin-left: 8px;
+	letter-spacing: 1px;
+}
+
+.hide {
+	display: none;
+}
+
+/*
+ ================================================================================================================================
+ Summary page specfic
+ ================================================================================================================================
+*/
+
+ul.recent-entries {
+	margin-top:35px;
+}
+
+ul.recent-entries a {
+	font-weight: bold;
+}
+
+ul.recent-entries div.entry-detail-box {
+	margin-top: 5px;
+}
+
+ul.blurbs li {
+	margin: 5px 0px;
+}
+
+.journal-date {
+	display: inline-block;
+	width: 120px;
+	font-weight: bold;
+}
+
+/*
+ ================================================================================================================================
+ Graphs and statistics.
+ ================================================================================================================================
+*/
+
+.graph {									/* Global settings for each graph */
+	margin-top: 30px;
+}
+
+#graphs {									/* Remove all the default border/padding/margin junk from the jquery ui.css file*/
+	border: 0px;
+	padding: 0px;
+	margin: 0px;
+}
+
+#graphs ul.ui-tabs-nav {					/* Same as above */
+	border: 0px;
+	padding: 0px;
+	margin: 0px;
+	background: none;
+}
+
+#graphs ul.ui-tabs-nav li {					/* Turn our li's into buttons */
+	font-weight: bold;
+	border: 2px solid skyblue!important;
+	-moz-border-radius: 4px;
+	-webkit-border-radius: 4px;
+	background: #4D6DFF url(/media/img/title-background.jpg);
+}
+
+#graphs ul.ui-tabs-nav li.ui-state-active {	/* Make the active button stand out */
+	border: 2px solid #132C9C!important;
+	padding: 0px;
+}
+
+#graphs ul.ui-tabs-nav a {
+	color: white;
+}
+
+.jqplot-yaxis	{							/* Important spacing to allow the y axis not to overlap on the graph */
+	left:-10px!important;
+}
+
+.jqplot-xaxis	{							/* Important spacing to allow the x axis not to overlap on the graph */
+	bottom: -10px!important;
+}
+
+.jqplot-highlighter-tooltip	{				/* We should probably make this a little more specific css wise, but this is for the summary page graph tooltips */
+	color: white;
+	background-color: black!important;
+	padding: 5px!important;
+}
+
+ul.legend {									/* Legend for graphs */
+	width: 800px;
+	margin:25px auto;
+}
+ul.legend li {
+	display:inline;
+	border-left: 20px solid black;
+	margin: 0px 15px;
+	padding: 2px;
+	cursor: pointer;
+}
+
+ul.legend li:hover {
+	text-decoration: underline;
+}
+
+/*
+ ================================================================================================================================
+ Tag cloud styling
+ ================================================================================================================================
+*/
+
+ul.tag-cloud li {							/* The 'cloud' list of tags on the summary page */
+	display: inline;
+	font-weight: bold;
+	cursor: pointer!important;
+}
+
+ul.tag-cloud a.light {						/* light tag */
+	color:#5C9BD8;
+}
+
+ul.tag-cloud a.dark	{						/* dark tag */
+	color:#1C22CC;
+}
+
+ul.tag-avg-mood {							/* The pop-up cloud when hovering over tags */
+	padding: 10px;
+}
+
+ul.tag-avg-mood li {
+	display: block;
+	font-size: 12px;
+	font-weight: normal;
+	cursor: pointer;
+}
+
+ul.tag-avg-mood span {						/* Title for the cloud */
+	text-align: center;
+	padding: 20px;
+	font-weight: bold;
+}
+
+ul.tag-avg-mood div {						/* Names of moods */
+	display: inline;
+	width: 100px;
+	float: left;
+}
+
+ul#suggested-tags li {						/* Tags listed on the emotion form, click to add them to the list */
+	display: inline;
+	color: #4D6DFF;
+	cursor:pointer;
+}
+
+ul#suggested-tags li:hover {
+	color: black;
+}
+
+/*
+ ================================================================================================================================
+ Dynamic content. Javascript pop-ups and other effects.
+ ================================================================================================================================
+*/
+
+.info-popup {								/* Sometimes we want information boxes that show help or something of the sort */
+	padding: 5px;
+	display: none;
+	position: absolute;
+	-moz-border-radius: 12px;
+	-webkit-border-radius: 12px;
+	border: 3px solid black;
+	background: #99CCFF;
+	z-index: 999;
+}
+
+/*
+ ================================================================================================================================
+ Forms. General stuff first, followed by specific forms. Each form seperated by dashes.
+ ================================================================================================================================
+*/
+
+.button {						/* All submit and buttons should have this class. Otherwise they will be effected by <input> CSS */
+	width: 120px!important;
+	color: white;
+	padding: 3px;
+	font-weight: bold;
+	text-shadow: 1px 1px black;
+	border: 1px solid black;
+	background: url("/media/img/footer-background.jpg") repeat #4D6DFF;
+}
+
+.button:hover {
+	cursor: pointer;
+	background: url("/media/img/title-background.jpg") repeat #4D6DFF;
+	border: 1px solid black!important;
+}
+
+.field-error input,				/* Change the field if it has an error */
+.field-error select,
+.field-error textarea {
+	border-color: #E89BA5;
+}
+
+.field-error input:focus,
+.field-error select:focus,
+.field-error textarea:focus {
+	border-color: black!important;
+}
+
+.field-container {				/* Used to hold the field and the error messages, also used for restyling when needed */
+	display: inline;
+}
+
+.label-container {				/* The left side div, holding the label and the error message */
+	float: left;
+	display: inline;
+}
+
+div.slider {
+	width: 200px;
+	float: left;
+	margin-top: 10px;
+	margin-right: 15px;
+}
+
+input.slider-input {
+	width: 20px!important;
+	text-align: center;
+}
+
+input.slider-input-large {
+	width: 35px!important;
+	text-align: center;
+}
+
+/* --------------------------------------------------------------------------------------------------------------------------- */
+
+.default-form {					/* Form class used in base_form.html... Vertical style form */
+	width: 700px;
+}
+
+.default-form label {
+	width: 200px!important;
+	float:left;
+	vertical-align:middle;
+}
+
+.default-form input,
+.default-form select,
+.default-form textarea {
+	margin-bottom: 22px;
+}
+
+/* --------------------------------------------------------------------------------------------------------------------------- */
+
+.span-form span {				/* Use spans between each field for inline */
+	float: left;
+	margin-right: 2%;
+}
+
+.span-form label {				/* We use block on the label to drop the field below the input */
+	display: block;
+	font-size: 26px;
+}
+
+.span-form #submit {
+	margin-top: 37px;
+}
+
+/* --------------------------------------------------------------------------------------------------------------------------- */
+
+#login-form {					/* Login form where users enter their username and password */
+	width: 370px;
+	margin-left: 50px;
+}
+
+#login-form label {
+	font-size: 22px;
+	line-height: 40px;
+	width:150px!important;
+}
+
+#login-form input {
+	font-size: 22px;
+	padding-left: 5px;
+}
+
+#login-form .button {
+	font-size: 16px;
+	float: left;
+}
+
+#forgot-password {
+	float: right;
+}
+
+/* --------------------------------------------------------------------------------------------------------------------------- */
+
+#emotionform label {
+	display: block;
+	margin: 5px 5px 5px 0px;
+}
+
+#emotionform #id_journal {
+	width: 100%!important;
+	height: 450px;
+}
+
+#emotionform #id_is_private {					/* Very specific edge case, checkbox does not need 200px width */
+	width: 15px!important;
+}
+
+#emotionform #id_tags {
+	width: 438px!important;
+}
+
+#emotionform div.slider {
+	width: 400px;
+}
+
+/* --------------------------------------------------------------------------------------------------------------------------- */
+
+#entrysearch #id_search_type_0, #entrysearch #id_search_type_1, #entrysearch
+#id_search_type_2 {
+	width: 20px!important;
+}
+
+#entrysearch ul li label, #entrysearch ul li, #entrysearch ul {
+	display: inline;
+	font-size: 17px;
+}
+
+#summary-search-form #id_query {
+	width: 180px!important;
+}
+#summary-search-form div {
+	text-align:center;
+}
+#summary-search-form {
+	margin-bottom: 20px;
+}
+
+/* --------------------------------------------------------------------------------------------------------------------------- */
+
+#feedback input,
+#feedback select,
+#feedback textarea {
+	margin-left: 50px;
+}
+#feedback p {
+	font-size: 14px;
+	margin-bottom: 25px;
+}
+#feedback #id_comment {
+	margin: 0px;
+	width: 400px!important;
+}
+#feedback .vote-button input {
+	margin:0px;
+}
+#feedback input[type="submit"] {
+	width: 120px!important;
+	color: white;
+	padding: 3px;
+	font-weight: bold;
+	text-shadow: 1px 1px black;
+	border: 1px solid black;
+	text-align: center;
+	background: url("/media/img/footer-background.jpg") repeat scroll 0 0 #4D6DFF;
+}
+
+#feedback input[type="submit"]:hover {
+	cursor: pointer;
+	background: url("/media/img/title-background.jpg") repeat scroll 0 0 #4D6DFF;
+	border: 1px solid black;
+}
+
+#feedback #id_title {						
+	padding:5px;
+	border:3px solid #4D6DFF;
+	-moz-border-radius:5px;
+	-webkit-border-radius:5px;
+	width: 200px!important;
+}
+
+#feedback #id_title:hover {
+	border-color: gray;
+}
+
+#feedback #id_title:focus {
+	border-color: black;
+}
+
+/*
+ ================================================================================================================================
+ The Calendar. Also known as the journal page.
+ ================================================================================================================================
+*/
+
+.calendar {											/* Journal calendar. The entire table*/
+	width: 98%;
+	margin-left: auto;
+	margin-right: auto;
+	background-color: white;
+}
+
+.calendar td {										/* Each cell in the calendar */
+	border: 1px solid black;
+	width: 14%;
+	height: 119px;
+	vertical-align: top;
+	padding: 0px;
+	margin: 0px;
+}
+
+.calendar td:hover {								/* Hovering over a linkable calendar cell */
+	cursor:pointer;
+	background-color: #BDC3FF;
+}
+
+.calendar td.no-hover-td:hover {					/* Hovering over a non-linkable calendar cell */
+	cursor:auto!important;
+	background-color: white!important;
+}
+
+.calendar th {										/* Header showing the days of the week */
+	border: 1px solid black;
+	background-color: black;
+	color: white;
+	text-align: center;
+	font-weight: bold;
+	padding: 3px;
+}
+.calendar-nav {										/* Navigation right above the calendar. Holds the Previous, Next, and Current month */
+	width:100%;
+}
+.calendar-title {									/* The current month displayed above the calendar */
+	display:block;
+	margin-left: auto;
+	margin-right: auto;
+	text-align: center;
+	font-size: 30px;
+}
+
+.grace {											/* A linkable cell is given a 'grace' class */
+	font-size: 23px!important;
+	text-align: center;
+}
+
+.calendar-month {									/* Links to the previous and next month */
+	font-size: 16px;
+	margin-top: 10px;
+}
+
+.calendar-date {									/* Numberical date on top-left of each cell */
+	border-right: 1px solid black;
+	border-bottom: 1px solid black;
+	text-align: center;
+	width: 23px;
+	background-color: white;
+}
+
+div.calendar-entry {								/* The journal entry for each day is displayed within the cell */
+	z-index: 1;
+	overflow: hidden;
+	position: absolute;
+	width: 123px;
+	height: 94px;
+	font-size: 12px;
+	color: black;
+	font-weight:bold;
+	padding:3px;
+}
+
+/*
+ ================================================================================================================================
+ Other. Truely miscellaneous stuff that does not fit anywhere else. Since you're here, why not see if any of this stuff fits 
+ anywhere else? Hm? What are you doing that's so important?
+ ================================================================================================================================
+*/
+
+ul.description {
+	background-color:white;
+	color:black;
+}
+ul.description li {
+	background-color:white;
+	list-style-type:square;
+}
+
+#register-link {
+	margin-top: 5px;
+}
+
+#info-boxes-main div {
+	min-height: 220px;
+	padding: 5px;
+	margin: 5px 10px 5px 0px;
+}
+
+.expand-arrow {
+	cursor: pointer;
+	text-align: center;
+	font-weight: bold;
+	-moz-border-radius:10px;
+	-webkit-border-radius:10px;
+	margin: 10px auto;
+	width:250px!important;
+}
+
+.box-title {
+	background: url("/media/img/footer-background.jpg") repeat #4D6DFF;
+	color: white;
+	font-weight: bold;
+	padding: 5px 0px;
+}
+
+#recent-mood-radar {
+	margin: 0px 0px 10px 10px;
+	border: 2px solid blue;
+	-moz-border-radius:5px;
+	-webkit-border-radius:5px;
+}
+
+.entry-list-detail {			/* Used for making an li of an entry look good */
+	margin-bottom: 20px;
+	padding-left: 10px;
+	border-left: 1px solid #4D6DFF;
+	width: 90%;
+}
+

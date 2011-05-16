@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+
+{% block page_title %}Entry List{% endblock page_title %}
+{% block body %}
+<div class="calendar-nav">
+	<div class="calendar-month" style="float:left;">
+		{% if viewing.username %}
+			<a href="{% url journal_month_specific_user viewing.username last_month.year last_month.month%}">
+		{% else %}
+			<a href="{% url journal_month last_month.year last_month.month %}">
+		{% endif %}
+		&lt;&lt; {{ last_month|date:"F" }}</a>
+	</div>
+	<div class="calendar-month" style="float: right;">
+		{% if viewing.username %}
+			<a href="{% url journal_month_specific_user viewing.username next_month.year next_month.month %}">
+		{% else %}
+		<a href="{% url journal_month next_month.year next_month.month %}">
+		{% endif %}
+		{{ next_month|date:"F"}} &gt;&gt;</a>
+	</div>	
+	<div class="calendar-title">{{ month_name }} {{ year }}</div>
+</div>
+
+<table class="calendar">
+	<tr>
+		<th>Monday</th>
+		<th>Tuesday</th>
+		<th>Wednesday</th>
+		<th>Thursday</th>
+		<th>Friday</th>
+		<th>Saturday</th>
+		<th>Sunday</th>
+	</tr>
+	{% for week in calendar %}
+	<tr>
+		{% for day in week %}
+		{% if day.day != 0 %}
+		<td alt="{{ day.day }}" {% if not day.entry and not day.entry_grace_period %}class="no-hover-td" {% endif %}>
+			<a {% if day.entry or day.entry_grace_period %}
+			href="{% if viewing.username %}{% url journal_entry_specific_user viewing.username year month day.day %}
+			{% else %}{% url journal_entry year month day.day %}{% endif %}"{% endif %}>
+				<div class="calendar-date">{{ day.day }}</div>
+				{% if day.entry %}
+				<div class="calendar-entry">
+					{% if day.entry.is_private %}Entry set to private {% else %}
+					{% if not day.entry.journal%}Mood recorded with no journal{% else %}
+					{{ day.entry.journal|truncatewords:13 }}{% endif %}{% endif %}
+				</div>
+				{% else %}
+					{% if day.entry_grace_period %}{% if not viewing.username %}
+					 <div class="calendar-entry grace">Fill out this entry!</div>
+					{% endif %}{% endif %}
+				{% endif %}
+				<!--<div class="background-text{% if day.entry_grace_period %} background-grace{% endif %}">{{ day.day }}</div>-->
+			</a>
+		</td>
+		{% else %}
+		<td class="no-hover-td">&nbsp;</td>
+		{% endif %}
+		{% endfor %}
+	</tr>
+	{% endfor %}
+</table>
+{% endblock body %}
+

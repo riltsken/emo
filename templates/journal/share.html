@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% block page_title %}Share{% endblock page_title %}
+
+{% block body %}
+
+<div class="header">Sharing your profile</div>
+{% if request_user_profile.public %}
+Because your profile is set to public, you can send anyone the following link to view your profile:<br><br>
+<input readonly="readonly" id="share-url" class="center" style="width:350px!important;" value="http://www.emovolution.com{% url summary_specific_user request.user.username %}">
+<br><br>
+Note that you can change your privacy settings at any time by accessing your <a class="underline-blue" href="{% url profile_edit %}">settings</a>.
+<br><br>
+
+<a href="http://www.facebook.com/sharer.php?u=http%3A%2F%2Fwww.emovolution.com{% url summary_specific_user request.user.username %}&t=Emovolution"
+	target="_blank"><img src="{{ MEDIA_URL }}img/facebook.png" alt="Share on Facebook"></a>
+<a href="http://www.twitter.com/?status=Check+out+my+profile+on+Emovolution+at+http://www.emovolution.com{% url summary_specific_user request.user.username %}"
+	target="_blank"><img src="{{ MEDIA_URL }}img/twitter.png" alt="Share on Twitter"></a>
+
+{% else %}
+Because your profile is set to private, no other users are able to access your profile. You can change this
+at any time by accessing your <a class="underline-blue" href="{% url profile_edit %}">settings</a>.
+{% endif %}
+
+<div class="header">Spreading the word</div>
+You can help spread the word about Emovolution in general by passing along a link:<br><br>
+<input readonly="readonly" id="share-url" class="center" style="width:350px!important;" value="http://www.emovolution.com">
+<br><br>
+
+<a href="http://www.facebook.com/sharer.php?u=http%3A%2F%2Fwww.emovolution.com&t=Emovolution"
+	target="_blank"><img src="{{ MEDIA_URL }}img/facebook.png" alt="Share on Facebook"></a>
+<a href="http://www.twitter.com/?status=Check+out+this+mood+tracking+and+stats+application+called+Emovolution+at+http://www.emovolution.com"
+	target="_blank"><img src="{{ MEDIA_URL }}img/twitter.png" alt="Share on Twitter"></a>
+
+{% endblock body %}

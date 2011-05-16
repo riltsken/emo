@@ -1,0 +1,18 @@
+{% extends 'base_form.html' %}
+{% block page_title %}Activate Demo Account{% endblock page_title %}
+{% block fields %}
+{% for form in forms %}
+	{% for field in form %}
+	<div class="{% block field_class %} {% endblock field_class %}" >
+		<div class="label-container width-200">
+			{{ field.label_tag }}
+			{% if field.errors %}<br>{{ field.errors }}{% endif %}
+		</div>
+		<div class="field-container{% if field.errors %} field-error{% endif %}">
+			{{ field }}
+		</div>
+		{{ field.help_text }}
+	</div>
+	{% endfor %}
+{% endfor %}
+{% endblock fields %}

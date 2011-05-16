@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block page_title %} User Search{% endblock page_title %}
+
+{% block body %}
+
+<form method="get" action="{% url social_bookmark_add %}">
+	<p>If you know the username of the person you wish to bookmark, enter it here.</p>
+	<input id="id_user" type="text" name="user">
+	<input type="hidden" name="redirect" value="{% url social_search %}">
+	<input type="submit" class="button" value="Bookmark">
+</form>
+<div class="header">Public Users</div>
+<table class="data">
+<tr>
+	<th>User</th>
+	<th>Profile</th>
+	<th>Add</th>
+</tr>
+{% for user in users %}
+{% with user.profile_set.get.public as is_public %}
+<tr class="{% cycle "" "highlight" %}">
+	<td>{{ user }}</td>
+	<td>
+		{% if is_public %}
+		<a class="underline-blue" href="{% url summary_specific_user user.username %}">View Profile</a>
+		{% else %}
+		&nbsp;
+		{% endif %}
+	</td>
+	<td>
+		{% if is_public %}
+		<a class="underline-blue" href="{% url social_bookmark_add %}?user={{ user }}">Bookmark</a>
+		{% else %}
+		<a class="underline-blue" href="{% url social_request_add %}?user={{ user }}">Bookmark</a>
+		{% endif %}
+	</td>
+</tr>
+{% endwith %}
+{% endfor %}
+</table>
+
+{% endblock body %}

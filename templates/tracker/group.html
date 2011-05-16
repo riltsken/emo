@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block page_title %}{{ group }}{% endblock page_title %}
+
+{% block body %}
+	
+	<h2>Group: {{ group }}</h2>
+
+	{% if group.tracker_set.count %}
+		Data tracked in this group:<br>
+		{% for tracker in group.tracker_set.all %}
+			<a href="">{{ tracker }}</a><br>
+		{% endfor %}
+	{% endif %}
+
+	<br>
+	<a href="{% url tracker_tracker_add group.id %}"><button class="button" style="width:auto!important;">Add new tracking data to this group.</button></a>
+
+{% endblock body %}

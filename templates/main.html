@@ -1,0 +1,116 @@
+{% extends "base.html" %}
+{% block extra_css %}
+<link rel="stylesheet" media="screen" href="{{ MEDIA_URL }}css/jquery.jqplot.min.css" type="text/css">
+{% endblock %}
+{% block extra_js %}
+<!--[if IE]><script language="javascript" type="text/javascript" src="{{ MEDIA_URL }}js/excanvas.min.js"></script><![endif]-->
+<script type="text/javascript" src="{{ MEDIA_URL }}js/jquery.jqplot.min.js"></script>
+<script type="text/javascript" src="{{ MEDIA_URL }}js/jqplot-plugins/jqplot.canvasTextRenderer.min.js"></script>
+<script type="text/javascript" src="{{ MEDIA_URL }}js/jqplot-plugins/jqplot.canvasAxisTickRenderer.min.js"></script>
+<script type="text/javascript" src="{{ MEDIA_URL }}js/jqplot-plugins/jqplot.dateAxisRenderer.min.js"></script>
+<script type="text/javascript" src="{{ MEDIA_URL }}js/jqplot-plugins/jqplot.pointLabels.min.js"></script>
+<script type="text/javascript" src="{{ MEDIA_URL }}js/jqplot-plugins/jqplot.highlighter.min.js"></script>
+<script type="text/javascript" src="{{ MEDIA_URL }}js/jqplot-plugins/jqplot.cursor.min.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){
+	/* LINE GRAPH (AVERAGE) */
+	/*
+	data1 = [
+		{% for e in stats.male %}
+		["{{e.0}}",{{e.1}}]{% if not forloop.last %},{% endif %}
+		{% endfor %}
+	];
+	data2 = [ 
+		{% for e in stats.female %}
+		["{{e.0}}",{{e.1}}]{% if not forloop.last %},{% endif %}
+		{% endfor %}
+	];
+	*/
+	data = [ 
+		{% for e in stats.users_mood %}
+		["{{e.0}}",{{e.1}}]{% if not forloop.last %},{% endif %}
+		{% endfor %}
+	];
+	line_avg = $.jqplot('line_avg_id', [data], {
+		height: 300,
+		width: 800,
+		title: "Global Average Moods",
+		axes: {
+			xaxis: {
+				renderer: $.jqplot.DateAxisRenderer,
+				rendererOptions: {tickRenderer: $.jqplot.CanvasAxisTickRenderer},
+				tickOptions: {
+					fontSize:"10px",
+					textColor:"#000000",
+					formatString:"%b %#d, %Y",
+					showGridline: false
+				}
+			},
+			yaxis: {
+				tickOptions: {
+					fontSize:"16px",
+					textColor:"#000000"
+				},
+				ticks: [0,1,2,3,4,5,6,7,8,9,10,11],
+				showTickMarks: false						
+			}
+		},
+		highlighter: {
+			sizeAdjust: 14,
+			show: true
+		},
+		seriesDefaults: {
+			markerOptions: {
+				color: "#000000",
+				size: 6
+			},
+			neighborThreshold: 2 
+		},
+		grid: {
+			background: "#ffffff"
+		}
+	});
+});
+</script>
+{% endblock extra_js %}
+{% block page_title %}The mood tracking application{% endblock page_title %}
+{% block body %}
+
+<div class="half left large">
+	Emovolution is a mood tracking and statistics application. Fill out your daily journal and 
+	keep track of your emotional status. A great way to keep a personal diary!
+	Everything is free, private, and secure. You can set your privacy settings however you want, 
+	with the default being 100% private. <p id="register-link" class="nomargin"><a class="underline-blue" href="{% url registration_register %}">Register Now!</a><p>
+</div>
+
+{% include "login_base.html" %}
+
+<div class="clear"></div>
+
+<div id="line_avg_id" class="graph" style="width:900px;height:300px;margin-bottom:50px;"></div>
+
+<div id="info-boxes-main" class="push-top">
+	<div class="left one-third backdrop-fade">
+		<h2>Statistics!</h2>
+		Keep track of your mood and view statistics and graphs generated about your data.
+		Powerful graphing tools for both personal and global anonymous reports. A great
+		way to track your progress and keep tabs on issues and events in your life. Take a
+		look at one of our <a href="{% url summary_specific_user "rilt" %}">own profiles</a>!
+	</div>
+	<div class="left one-third backdrop-fade">
+		<h2>Easy to Use!</h2>
+		Emovolution is incredibly simple to use. Your daily journal can be filled out in
+		a matter of seconds. Check out a <a href="{% url demo %}">demo user</a>
+		to see just how easy the system is. If you like it, you can activate your
+		account immediately without having to re-do anything!
+	</div>
+	<div class="left one-third backdrop-fade">
+		<h2>Privacy</h2>
+		We will never share any information you enter into the system with anyone 
+		unless you specifically ask us to. Your privacy settings default to 100%
+		private. If you chose, you may open your profile up to the public and share
+		it with anyone you'd like to.
+	</div>
+</div>
+<div class="clear"></div>
+{% endblock body %}

@@ -1,0 +1,8 @@
+{% extends 'base.html' %}
+{% block page_title %}Announcements Archive{% endblock page_title %}
+{% block announcement_hide %}{% endblock announcement_hide %}
+{% block announce_top %}
+<div class="announcement-top" style="text-align:left;">
+	<span class="announcement-title" style="float:none;">Announcement - {{ a.start_time|date }}</span>
+</div>
+{% endblock announce_top %}

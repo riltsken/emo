@@ -1,0 +1,37 @@
+<div class="title center">Entry for {{ entry_date|date:"l, d M Y" }}</div>
+<form method="post" action="." name="entry" id="emotionform">
+	{% csrf_token %}
+	{{ form.errors }}
+
+	<div class="half left">
+		<div id="expand-moods" class="expand-arrow button">Show Individual Moods</div>
+		<div id="slider-average">
+			<div class="slider-container">
+				Mood Average<br>
+				<div id="slider-avg-mood" class="slider"></div>
+				<input id="input-avg-mood" class="slider-input-large" readonly="readonly" value="{{mood_avg}}">
+			</div>
+		</div>
+		<div id="moods" class="hide">
+			{% for f in mood_form %} 
+			{{ f.label }}
+			{{ f }}
+			{% endfor %}
+		</div>
+		<label class="textarea">Tags</label>
+		{{ form.tags }}
+		<div>
+			<p id="suggested-tags-label" class="bold nomargin">Recent and Frequent Tags</p>
+			<ul id="suggested-tags">{% for t in tagcloud.suggested_tags %}<li class="underline-blue">{{t}}</li>{% if not forloop.last %}, {% endif %}{% endfor %}</ul>
+		</div>
+	</div>
+	<div class="half right">
+		<label class="textarea">Journal</label>
+		{{ form.journal }}
+		{{ form.is_private.label_tag }}
+		{{ form.is_private }}
+	</div>
+	<div class="clear"></div>
+	<input type="submit" value="Save" class="button">
+</form>
+

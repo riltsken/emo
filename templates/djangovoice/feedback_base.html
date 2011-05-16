@@ -1,0 +1,58 @@
+{% extends "djangovoice/container.html" %}
+{% block sectionid %}feedback{% endblock %}
+
+{% block script_base %}
+    <link rel="alternate" type="application/rss+xml" title="{% trans "Latest feedback" %}" href="/feeds/feedback/" />
+{% endblock %}
+
+{% block body %}
+
+<div class="page-center-wrap">
+    <div class="page-center-content">
+        <div id="header">
+            <div id="navigation">
+                <ul>
+                    {% block navigation %}
+                        <li{% ifequal navigation_active 'all' %} class="active"{% endifequal %}><a href="{% url djangovoice_list 'all' %}">{% trans "All" %}</a></li>
+                        <li{% ifequal navigation_active 'open' %} class="active"{% endifequal %}><a href="{% url djangovoice_list 'open' %}">{% trans "Open" %}</a></li>
+                        <li{% ifequal navigation_active 'closed' %} class="active"{% endifequal %}><a href="{% url djangovoice_list 'closed' %}">{% trans "Closed" %}</a></li>
+                        <li{% ifequal navigation_active 'mine' %} class="active"{% endifequal %}><a href="{% url djangovoice_list 'mine' %}">{% trans "Mine" %}</a></li>
+                    {% endblock %}
+                </ul>
+            </div>
+            <div id="title">
+                <a href="{% url djangovoice_home %}">{{ site.name }} Feedback</a>
+            </div>
+        </div>
+        <div id="actions">
+            <ul>
+                <li><a href="{% url djangovoice_submit %}">{% trans "Submit feedback" %}</a></li>
+                {% block actions %}{% endblock %}
+            </ul>
+            <div class="clear"></div>
+        </div>
+        <div id="content-wrap">
+            <div id="sidebar">
+                {% block sidebar %}{% endblock %}
+            </div>
+            <div id="content">
+                {% if session_messages %}
+                    <div id="alert-messages">
+                        <ul>
+                        {% autoescape off %}
+                        {% for message in session_messages %}
+                          <li>{{ message|urlize|linebreaksbr|safe }}</li>
+                        {% endfor %}
+                        {% endautoescape %}
+                        </ul>
+                    </div>
+                {% endif %}
+                {% block content %}{% endblock %}
+                <div class="clear"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}

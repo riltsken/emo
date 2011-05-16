@@ -1,0 +1,8 @@
+{% extends "base_form.html" %}
+{% block page_title %}
+	{% if form.instance %}
+		Edit Tracker: {{ form.instance }}
+	{% else %}
+		Create New Tracker
+	{% endif %}
+{% endblock page_title %}

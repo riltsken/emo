@@ -1,0 +1,7 @@
+Thank you for registering, we hope you enjoy the use of our mood tracking application at Emovolution.
+
+To complete the registration process, just click on the below link to have your account activated:
+
+http://www.emovolution.com/account/activate/{{ activation_key }}/
+
+If you received this email in error, please disregard the above.
