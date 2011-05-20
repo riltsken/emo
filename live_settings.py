@@ -21,7 +21,7 @@ USE_I18N =		True
 USE_CUSTOM_CSS = False
 MEDIA_ROOT = '%s/media/' % FILE_PATH
 MEDIA_URL			= '/media/'
-ADMIN_MEDIA_PREFIX	= '/admin_media/'
+ADMIN_MEDIA_PREFIX	= '/media/admin/'
 
 SECRET_KEY = 't@v!va#zjj31vk!ly54hc0o#h@yjd4+&%l8v0nmc2@w(1_2vsu'
 
